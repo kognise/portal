@@ -1,6 +1,6 @@
 cd /srv/stats
 yarn
-if pm2 pid Stats
+if pm2 describe Stats
 then
   pm2 restart Stats
 else
