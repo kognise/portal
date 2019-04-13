@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang='en'>
   <head>
-    <title>Project Portal</title>
-    <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.css'>
+    <title>Project Portal: Stats</title>
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.css'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   </head>
   <body>
@@ -10,5 +10,11 @@
     <p>
       My server's system information, updated realtime. <strong>In progress.</strong>
     </p>
+
+    <canvas id='memory-chart'></canvas>
+    
+    <script src='io/socket.io.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js'></script>
+    <script src='script.js'></script>
   </body>
 </html>
