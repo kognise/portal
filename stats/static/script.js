@@ -88,8 +88,39 @@ const latencyChart = new Chart(document.getElementById('latency-chart'), {
   }
 })
 
+const diskChart = new Chart(document.getElementById('disk-chart'), {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [{
+      label: 'Disk Writes',
+      backgroundColor: 'transparent',
+      borderColor: '#ff6384',
+      data: []
+    },
+    {
+      label: 'Disk Reads',
+      backgroundColor: 'transparent',
+      borderColor: '#63ff84',
+      data: []
+    }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          callback(value) {
+            return formatBytes(value)
+          },
+          suggestedMin: 0
+        }
+      }]
+    }
+  }
+})
+
 const socket = io({ path: '/stats/io' })
-socket.on('stats', ({ usedMemory, freeMemory, portalLatency, statsLatency }) => {
+socket.on('stats', ({ usedMemory, freeMemory, portalLatency, statsLatency, readIo, writeIo }) => {
   console.log('> Got stats')
   const now = new Date().toLocaleTimeString()
 
@@ -116,7 +147,18 @@ socket.on('stats', ({ usedMemory, freeMemory, portalLatency, statsLatency }) => 
   latencyChart.data.datasets[0].data.push(portalLatency)
   latencyChart.data.datasets[1].data.push(statsLatency)
 
+  if (diskChart.data.datasets[0].data.length >= history) {
+    diskChart.data.labels.splice(0, 1)
+    diskChart.data.datasets[0].data.splice(0, 1)
+    diskChart.data.datasets[1].data.splice(0, 1)
+  }
+
+  diskChart.data.labels.push(now)
+  diskChart.data.datasets[0].data.push(writeIo)
+  diskChart.data.datasets[1].data.push(readIo)
+
   memoryChart.update()
   memoryPieChart.update()
   latencyChart.update()
+  diskChart.update()
 })
