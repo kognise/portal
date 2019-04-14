@@ -13,13 +13,18 @@ setInterval(async () => {
   const portalRes = await si.inetChecksite('https://portal.kognise.dev/')
   const statsRes = await si.inetChecksite('https://portal.kognise.dev/stats')
   const disk = await si.fsStats()
+  const network = await si.networkStats('*')
+  const fn = network.filter(({ iface }) => iface !== 'lo')
+
   io.emit('stats', {
     usedMemory: memory.active,
     freeMemory: memory.available,
     portalLatency: portalRes.ms,
     statsLatency: statsRes.ms,
-    readIo: disk.rx_sec < 0 ? 0 : disk.rx_sec,
-    writeIo: disk.wx_sec < 0 ? 0 : disk.wx_sec
+    readIo: disk.rx_sec,
+    writeIo: disk.wx_sec,
+    networkTx: fn[0].tx_sec,
+    networkRx: fn[0].rx_sec
   })
 }, 1000)
 
