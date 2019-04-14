@@ -3,9 +3,15 @@ const memoryChart = new Chart(document.getElementById('memory-chart'), {
   data: {
     labels: [],
     datasets: [{
-      label: 'Memory Usage',
+      label: 'Used Memory',
       backgroundColor: 'transparent',
       borderColor: '#ff6384',
+      data: []
+    },
+    {
+      label: 'Free Memory',
+      backgroundColor: 'transparent',
+      borderColor: '#63ff84',
       data: []
     }]
   },
@@ -19,7 +25,21 @@ const memoryChart = new Chart(document.getElementById('memory-chart'), {
           suggestedMin: 0
         }
       }]
-    }
+    },
+    maintainAspectRatio: false
+  }
+})
+const memoryPieChart = new Chart(document.getElementById('memory-pie-chart'), {
+  type: 'pie',
+  data: {
+    labels: [ 'Used Memory', 'Free Memory' ],
+    datasets: [{
+      backgroundColor: [ '#ff6384', '#63ff84' ],
+      data: [ 0, 0 ]
+    }]
+  },
+  options: {
+    maintainAspectRatio: false
   }
 })
 
@@ -35,11 +55,24 @@ function formatBytes(bytes, decimals = 2) {
 
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
 }
+const history = 100
 
 const socket = io({ path: '/stats/io' })
-socket.on('stats', ({ usedMemory }) => {
+socket.on('stats', ({ usedMemory, freeMemory }) => {
   console.log('> Got stats')
-  memoryChart.data.labels.push(new Date().toLocaleString())
+
+  memoryChart.data.labels.push(new Date().toLocaleTimeString())
   memoryChart.data.datasets[0].data.push(usedMemory)
+  memoryChart.data.datasets[1].data.push(freeMemory)
+
+  if (memoryChart.data.datasets[0].data.length > history) {
+    memoryChart.data.datasets[0].data.shift()
+    memoryChart.data.datasets[1].data.shift()
+  }
+
+  memoryPieChart.data.datasets[0].data[0] = usedMemory
+  memoryPieChart.data.datasets[0].data[1] = freeMemory
+
   memoryChart.update()
+  memoryPieChart.update()
 })

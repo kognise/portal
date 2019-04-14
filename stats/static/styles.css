@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  height: 300px;
+}
+
+.most {
+  flex: 1;
+  height: 100%;
+}
+
+.less {
+  width: 200px;
+  height: 100%;
+}
+
+@media only screen and (max-width: 404px) {
+  .container {
+    display: block;
+  }
+  .less {
+    width: 100%;
+  }
+}

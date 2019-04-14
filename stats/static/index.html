@@ -3,15 +3,25 @@
   <head>
     <title>Project Portal: Stats</title>
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.css'>
+    <link rel='stylesheet' href='styles.css'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
   </head>
   <body>
     <h1>Project Portal: Stats</h1>
     <p>
       My server's system information, updated realtime. <strong>In progress.</strong>
+      <br>
+      <a href='/'>See the other projects &raquo;</a>
     </p>
 
-    <canvas id='memory-chart'></canvas>
+    <div class='container'>
+      <div class='less'>
+        <canvas id='memory-pie-chart'></canvas>
+      </div>
+      <div class='most'>
+        <canvas id='memory-chart'></canvas>
+      </div>
+    </div>
     
     <script src='io/socket.io.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js'></script>

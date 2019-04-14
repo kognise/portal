@@ -11,9 +11,10 @@ app.get('/')
 setInterval(async () => {
   const memory = await si.mem()
   io.emit('stats', {
-    usedMemory: memory.active
+    usedMemory: memory.active,
+    freeMemory: memory.available
   })
-}, 1000)
+}, 500)
 
 io.on('connection', () => console.log('> Someone connected'))
 
