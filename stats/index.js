@@ -10,13 +10,13 @@ app.get('/')
 
 setInterval(async () => {
   const memory = await si.mem()
-  const portalRes = await si.inetChecksite('https://portal.kognise.dev/')
-  const statsRes = await si.inetChecksite('https://portal.kognise.dev/stats')
+  const portalLatency = await si.inetLatency('https://portal.kognise.dev/')
+  const statsLatency = await si.inetLatency('https://portal.kognise.dev/stats')
   io.emit('stats', {
     usedMemory: memory.active,
     freeMemory: memory.available,
-    portalLatency: portalRes.ms,
-    statsLatency: statsRes.ms
+    portalLatency,
+    statsLatency
   })
 }, 1000)
 
