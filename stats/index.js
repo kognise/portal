@@ -10,11 +10,15 @@ app.get('/')
 
 setInterval(async () => {
   const memory = await si.mem()
+  const portalRes = await si.inetChecksite('https://portal.kognise.dev/')
+  const statsRes = await si.inetChecksite('https://portal.kognise.dev/stats')
   io.emit('stats', {
     usedMemory: memory.active,
-    freeMemory: memory.available
+    freeMemory: memory.available,
+    portalLatency: portalRes.ms,
+    statsLatency: statsRes.ms
   })
-}, 500)
+}, 1000)
 
 io.on('connection', () => console.log('> Someone connected'))
 
