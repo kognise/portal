@@ -5,6 +5,11 @@ const app = express()
 const sessions = {}
 
 app.get('/heart', (req, res) => {
+  for (let id in sessions) {
+    if (Date.now() - sessions[id] > 2000) {
+      delete sessions[id]
+    }
+  }
   res.send(Object.keys(sessions).length.toString())
 })
 
@@ -29,14 +34,6 @@ app.get('/heart/beat', (req, res) => {
 
 app.get('/heart/demo', (req, res) => {
   res.sendFile('demo.html', { root: __dirname })
-})
-
-setInterval(() => {
-  for (let id in sessions) {
-    if (Date.now() - sessions[id] > 2000) {
-      delete sessions[id]
-    }
-  }
 })
 
 app.listen(8002, () => console.log('> Listening on http://localhost:8002/heart'))
