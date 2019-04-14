@@ -32,14 +32,21 @@ const memoryChart = new Chart(document.getElementById('memory-chart'), {
 const memoryPieChart = new Chart(document.getElementById('memory-pie-chart'), {
   type: 'pie',
   data: {
-    labels: [ 'Used Memory', 'Free Memory' ],
+    labels: [ 'Free Memory', 'Used Memory' ],
     datasets: [{
-      backgroundColor: [ '#ff6384', '#63ff84' ],
+      backgroundColor: [ '#63ff84', '#ff6384' ],
       data: [ 0, 0 ]
     }]
   },
   options: {
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    tooltips: {
+      callbacks: {
+        label: function(tooltipItem, data) {
+          return formatBytes(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index])
+        }
+      }
+    }
   }
 })
 
@@ -146,12 +153,34 @@ const diskChart = new Chart(document.getElementById('disk-chart'), {
           suggestedMin: 0
         }
       }]
+    },
+    maintainAspectRatio: false
+  }
+})
+
+const storageChart = new Chart(document.getElementById('storage-chart'), {
+  type: 'pie',
+  data: {
+    labels: [ 'Free Storage', 'Used Storage' ],
+    datasets: [{
+      backgroundColor: [ '#63ff84', '#ff6384' ],
+      data: [ 0, 0 ]
+    }]
+  },
+  options: {
+    maintainAspectRatio: false,
+    tooltips: {
+      callbacks: {
+        label: function(tooltipItem, data) {
+          return formatBytes(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index])
+        }
+      }
     }
   }
 })
 
 const socket = io({ path: '/stats/io' })
-socket.on('stats', ({ usedMemory, freeMemory, portalLatency, statsLatency, readIo, writeIo, networkRx, networkTx }) => {
+socket.on('stats', ({ usedMemory, freeMemory, portalLatency, statsLatency, readIo, writeIo, networkRx, networkTx, storageUsed, storageFree }) => {
   console.log('> Got stats')
   const now = new Date().toLocaleTimeString()
 
@@ -165,8 +194,8 @@ socket.on('stats', ({ usedMemory, freeMemory, portalLatency, statsLatency, readI
   memoryChart.data.datasets[0].data.push(usedMemory)
   memoryChart.data.datasets[1].data.push(freeMemory)
 
-  memoryPieChart.data.datasets[0].data[0] = usedMemory
-  memoryPieChart.data.datasets[0].data[1] = freeMemory
+  memoryPieChart.data.datasets[0].data[0] = freeMemory
+  memoryPieChart.data.datasets[0].data[1] = usedMemory
 
   if (latencyChart.data.datasets[0].data.length >= history) {
     latencyChart.data.labels.splice(0, 1)
@@ -198,9 +227,13 @@ socket.on('stats', ({ usedMemory, freeMemory, portalLatency, statsLatency, readI
   networkChart.data.datasets[0].data.push(networkTx)
   networkChart.data.datasets[1].data.push(networkRx)
 
+  storageChart.data.datasets[0].data[0] = storageFree
+  storageChart.data.datasets[0].data[1] = storageUsed
+
   memoryChart.update()
   memoryPieChart.update()
   latencyChart.update()
   diskChart.update()
   networkChart.update()
+  storageChart.update()
 })

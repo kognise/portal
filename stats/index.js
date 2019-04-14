@@ -15,6 +15,12 @@ setInterval(async () => {
   const disk = await si.fsStats()
   const network = await si.networkStats('*')
   const fn = network.filter(({ iface }) => iface !== 'lo')
+  const storage = await si.fsSize()
+  const storageReduced = storage.reduce((accumulator, current) => {
+    accumulator.used += current.used
+    accumulator.free += current.size - current.used
+    return accumulator
+  }, { used: 0, free: 0 })
 
   io.emit('stats', {
     usedMemory: memory.active,
@@ -24,7 +30,9 @@ setInterval(async () => {
     readIo: disk.rx_sec,
     writeIo: disk.wx_sec,
     networkTx: fn[0].tx_sec,
-    networkRx: fn[0].rx_sec
+    networkRx: fn[0].rx_sec,
+    storageUsed: storageReduced.used,
+    storageFree: storageReduced.free
   })
 }, 1000)
 
