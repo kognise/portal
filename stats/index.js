@@ -19,7 +19,7 @@ function packetStats(iface) {
         rx = parseInt(result)
       }
       
-      exec(`cat /sys/class/net/${iface}/statistics/rx_packets`, (err, result) => {
+      exec(`cat /sys/class/net/${iface}/statistics/tx_packets`, (err, result) => {
         if (!err) {
           tx = parseInt(result)
         }
