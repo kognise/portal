@@ -13,27 +13,14 @@ app.get('/heart', (req, res) => {
   res.send(Object.keys(sessions).length.toString())
 })
 
-app.get('/heart/register', (req, res) => {
-  const id = uuid()
-  sessions[id] = Date.now()
-  res.send(id)
-})
-
 app.get('/heart/beat/:session', (req, res) => {
   if (req.params.session in sessions) {
     sessions[req.params.session] = Date.now()
-    res.sendStatus(200)
+    res.send(req.params.session)
   } else {
-    res.sendStatus(400)
-  }
-})
-
-app.get('/heart/beat/:session', (req, res) => {
-  if (req.params.session in sessions) {
-    delete sessions[req.params.session]
-    res.sendStatus(200)
-  } else {
-    res.sendStatus(400)
+    const id = uuid()
+    sessions[id] = Date.now()
+    res.send(id)
   }
 })
 
