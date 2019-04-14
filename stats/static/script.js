@@ -100,13 +100,13 @@ const networkChart = new Chart(document.getElementById('network-chart'), {
   data: {
     labels: [],
     datasets: [{
-      label: 'TX',
+      label: 'TX (bytes)',
       backgroundColor: 'transparent',
       borderColor: '#ff6384',
       data: []
     },
     {
-      label: 'RX',
+      label: 'RX (bytes)',
       backgroundColor: 'transparent',
       borderColor: '#63ff84',
       data: []
@@ -120,6 +120,37 @@ const networkChart = new Chart(document.getElementById('network-chart'), {
             return formatBytes(value)
           },
           suggestedMin: 0
+        }
+      }]
+    }
+  }
+})
+
+const packetsChart = new Chart(document.getElementById('packets-chart'), {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [{
+      label: 'TX (packets)',
+      backgroundColor: 'transparent',
+      borderColor: '#ff6384',
+      data: []
+    },
+    {
+      label: 'RX (packets)',
+      backgroundColor: 'transparent',
+      borderColor: '#63ff84',
+      data: []
+    }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          callback(value) {
+            return value.toLocaleString()
+          },
+          // suggestedMin: 0
         }
       }]
     }
@@ -180,7 +211,7 @@ const storageChart = new Chart(document.getElementById('storage-chart'), {
 })
 
 const socket = io({ path: '/stats/io' })
-socket.on('stats', ({ usedMemory, freeMemory, portalLatency, statsLatency, readIo, writeIo, networkRx, networkTx, storageUsed, storageFree }) => {
+socket.on('stats', ({ usedMemory, freeMemory, portalLatency, statsLatency, readIo, writeIo, networkRx, networkTx, storageUsed, storageFree, packetsRx, packetsTx }) => {
   console.log('> Got stats')
   const now = new Date().toLocaleTimeString()
 
@@ -227,6 +258,16 @@ socket.on('stats', ({ usedMemory, freeMemory, portalLatency, statsLatency, readI
   networkChart.data.datasets[0].data.push(networkTx)
   networkChart.data.datasets[1].data.push(networkRx)
 
+  if (packetsChart.data.datasets[0].data.length >= history) {
+    packetsChart.data.labels.splice(0, 1)
+    packetsChart.data.datasets[0].data.splice(0, 1)
+    packetsChart.data.datasets[1].data.splice(0, 1)
+  }
+
+  packetsChart.data.labels.push(now)
+  packetsChart.data.datasets[0].data.push(packetsTx)
+  packetsChart.data.datasets[1].data.push(packetsRx)
+
   storageChart.data.datasets[0].data[0] = storageFree
   storageChart.data.datasets[0].data[1] = storageUsed
 
@@ -235,5 +276,6 @@ socket.on('stats', ({ usedMemory, freeMemory, portalLatency, statsLatency, readI
   latencyChart.update()
   diskChart.update()
   networkChart.update()
+  packetsChart.update()
   storageChart.update()
 })
