@@ -1,6 +1,7 @@
 const express = require('express')
 const si = require('systeminformation')
 const exec = require('child_process').exec
+const fetch = require('node-fetch')
 
 const app = express()
 const http = require('http').createServer(app)
@@ -34,10 +35,17 @@ function packetStats(iface) {
   })
 }
 
+async function checkSite(host) {
+  const res = await fetch(`https://latency.kognise.dev/?host=${encodeURIComponent(host)}`)
+  const text = await res.text()
+  const ms = parseInt(text)
+  return { ms }
+}
+
 setInterval(async () => {
   const memory = await si.mem()
-  const portalRes = await si.inetChecksite('https://portal.kognise.dev/')
-  const statsRes = await si.inetChecksite('https://portal.kognise.dev/stats')
+  const portalRes = await checkSite('https://portal.kognise.dev/')
+  const statsRes = await checkSite('https://portal.kognise.dev/stats')
   const disk = await si.fsStats()
   const network = await si.networkStats('*')
   const fn = network.filter(({ iface }) => iface !== 'lo')
