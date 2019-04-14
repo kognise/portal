@@ -88,7 +88,8 @@ const latencyChart = new Chart(document.getElementById('latency-chart'), {
           callback(value) {
             return `${value}ms`
           },
-          suggestedMin: 0
+          suggestedMin: 0,
+          suggestedMax: 1000
         }
       }]
     }
@@ -149,8 +150,7 @@ const packetsChart = new Chart(document.getElementById('packets-chart'), {
         ticks: {
           callback(value) {
             return value.toLocaleString()
-          },
-          // suggestedMin: 0
+          }
         }
       }]
     }
