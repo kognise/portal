@@ -28,6 +28,15 @@ app.get('/heart/beat/:session', (req, res) => {
   }
 })
 
+app.get('/heart/beat/:session', (req, res) => {
+  if (req.params.session in sessions) {
+    delete sessions[req.params.session]
+    res.sendStatus(200)
+  } else {
+    res.sendStatus(400)
+  }
+})
+
 app.get('/heart/beat', (req, res) => {
   res.sendFile('beat.js', { root: __dirname })
 })

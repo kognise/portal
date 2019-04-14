@@ -16,4 +16,8 @@
 
   await updateSession()
   setInterval(beat, 1000)
+
+  window.addEventListener('beforeunload', async () => {
+    await fetch(`${e}/deregister/${session}`)
+  })
 })()
