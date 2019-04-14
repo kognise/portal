@@ -1,3 +1,28 @@
+const sessionsChart = new Chart(document.getElementById('sessions-chart'), {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [{
+      label: 'Active Sessions',
+      backgroundColor: 'transparent',
+      borderColor: '#6384ff',
+      data: []
+    }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          callback(value) {
+            return value.toLocaleString()
+          },
+          suggestedMin: 0
+        }
+      }]
+    }
+  }
+})
+
 const memoryChart = new Chart(document.getElementById('memory-chart'), {
   type: 'line',
   data: {
@@ -211,7 +236,7 @@ const storageChart = new Chart(document.getElementById('storage-chart'), {
 })
 
 const socket = io({ path: '/stats/io' })
-socket.on('stats', ({ usedMemory, freeMemory, portalLatency, statsLatency, readIo, writeIo, networkRx, networkTx, storageUsed, storageFree, packetsRx, packetsTx }) => {
+socket.on('stats', ({ usedMemory, freeMemory, portalLatency, statsLatency, readIo, writeIo, networkRx, networkTx, storageUsed, storageFree, packetsRx, packetsTx, sessions }) => {
   console.log('> Got stats')
   const now = new Date().toLocaleTimeString()
 
@@ -268,6 +293,14 @@ socket.on('stats', ({ usedMemory, freeMemory, portalLatency, statsLatency, readI
   packetsChart.data.datasets[0].data.push(packetsTx)
   packetsChart.data.datasets[1].data.push(packetsRx)
 
+  if (sessionsChart.data.datasets[0].data.length >= history) {
+    sessionsChart.data.labels.splice(0, 1)
+    sessionsChart.data.datasets[0].data.splice(0, 1)
+  }
+
+  sessionsChart.data.labels.push(now)
+  sessionsChart.data.datasets[0].data.push(sessions)
+
   storageChart.data.datasets[0].data[0] = storageFree
   storageChart.data.datasets[0].data[1] = storageUsed
 
@@ -278,4 +311,5 @@ socket.on('stats', ({ usedMemory, freeMemory, portalLatency, statsLatency, readI
   networkChart.update()
   packetsChart.update()
   storageChart.update()
+  sessionsChart.update()
 })

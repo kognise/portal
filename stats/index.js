@@ -42,6 +42,12 @@ async function checkSite(host) {
   return { ms }
 }
 
+async function getSessions() {
+  const res = await fetch('https://portal.kognise.dev/heart')
+  const text = await res.text()
+  return parseInt(text)
+}
+
 setInterval(async () => {
   const memory = await si.mem()
   const portalRes = await checkSite('https://portal.kognise.dev/')
@@ -56,6 +62,7 @@ setInterval(async () => {
     accumulator.free += current.size - current.used
     return accumulator
   }, { used: 0, free: 0 })
+  const sessions = await getSessions()
 
   io.emit('stats', {
     usedMemory: memory.active,
@@ -69,7 +76,8 @@ setInterval(async () => {
     packetsTx: packets.tx,
     packetsRx: packets.rx,
     storageUsed: storageReduced.used,
-    storageFree: storageReduced.free
+    storageFree: storageReduced.free,
+    sessions
   })
 }, 1000)
 
