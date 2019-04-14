@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Project Portal: Heart</title>
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.css'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  </head>
+  <body>
+    <h1>Project Portal: Heart</h1>
+    <p>
+      This is a simple heartbeat demo page. All it does is send a heartbeat with the script, as well as houses some documentation.
+      <br>
+      <a href='/'>See the other projects &raquo;</a>
+    </p>
+
+    <h2>Endpoints</h2>
+    <ul>
+      <li><code>/heart</code>: responds with the current number of sessions</li>
+      <li><code>/heart/demo</code>: this page</li>
+      <li><code>/heart/beat</code>: houses a simple script to send a heartbeat</li>
+      <li><code>/heart/beat/:session</code>: sends a heartbeat</li>
+      <li><code>/heart/register</code>: registers a session</li>
+    </ul>
+
+    <h2>Script</h2>
+    <p>
+      Just include the heartbeat script in every page to automatically send a heartbeat.
+    </p>
+    <pre><code>&lt;script src='https://portal.kognise.dev/heart/beat'&gt;&lt;/script&gt;&lt;/code&gt;&lt;/pre&gt;</code></pre>
+    
+    <script src='beat'></script>
+  </body>
+</html>
