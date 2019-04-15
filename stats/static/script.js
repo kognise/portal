@@ -16,7 +16,7 @@ const moreScaleOptions = {
     fontColor: 'white'
   },
   gridLines: {
-    color: '#ffffff2f'
+    color: '#ffffff1f'
   },
   angleLines: {
     color: 'white'
