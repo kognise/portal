@@ -8,13 +8,10 @@
   let session = BCookies.get(c)
 
   async function beat() {
-    const res = await fetch(`${e}/beat/${session}`)
+    const res = await fetch(`${e}/beat/${encodeURIComponent(session)}`)
     if (res.ok) {
       session = await res.text()
       BCookies.set(c, session)
-    } else {
-      session = undefined
-      BCookies.remove(c)
     }
   }
 
