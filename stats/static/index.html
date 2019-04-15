@@ -15,28 +15,40 @@
       <br>
       <a href='/'>See the other projects &raquo;</a>
     </p>
+
+    <div class='item'>
+      <canvas id='sessions-chart'></canvas>
+    </div>
     
-    <canvas id='sessions-chart'></canvas>
-
-    <canvas id='latency-chart'></canvas>
-    <canvas id='network-chart'></canvas>
-    <canvas id='packets-chart'></canvas>
-
-    <div class="container">
-      <div class='less'>
-        <canvas id='storage-chart'></canvas>
+    <div class='flex collapse-sm'>
+      <div class='item'>
+        <canvas id='latency-chart'></canvas>
       </div>
-      <div class='most'>
-        <canvas id='disk-chart'></canvas>
+      <div class='item'>
+        <canvas id='network-chart'></canvas>
+      </div>
+      <div class='item'>
+        <canvas id='packets-chart'></canvas>
       </div>
     </div>
 
-    <div class='container'>
-      <div class='less'>
-        <canvas id='memory-pie-chart'></canvas>
+    <div class='flex collapse-md'>
+      <div class='flex item collapse-xs'>
+        <div class='item less'>
+          <canvas id='storage-chart'></canvas>
+        </div>
+        <div class='item most'>
+          <canvas id='disk-chart'></canvas>
+        </div>
       </div>
-      <div class='most'>
-        <canvas id='memory-chart'></canvas>
+
+      <div class='flex item collapse-xs'>
+        <div class='item less'>
+          <canvas id='memory-pie-chart'></canvas>
+        </div>
+        <div class='item most'>
+          <canvas id='memory-chart'></canvas>
+        </div>
       </div>
     </div>
     

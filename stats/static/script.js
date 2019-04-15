@@ -19,7 +19,8 @@ const sessionsChart = new Chart(document.getElementById('sessions-chart'), {
           suggestedMin: 0
         }
       }]
-    }
+    },
+    maintainAspectRatio: false
   }
 })
 
@@ -117,7 +118,8 @@ const latencyChart = new Chart(document.getElementById('latency-chart'), {
           suggestedMax: 1000
         }
       }]
-    }
+    },
+    maintainAspectRatio: false
   }
 })
 
@@ -148,7 +150,8 @@ const networkChart = new Chart(document.getElementById('network-chart'), {
           suggestedMin: 0
         }
       }]
-    }
+    },
+    maintainAspectRatio: false
   }
 })
 
@@ -178,7 +181,8 @@ const packetsChart = new Chart(document.getElementById('packets-chart'), {
           }
         }
       }]
-    }
+    },
+    maintainAspectRatio: false
   }
 })
 
