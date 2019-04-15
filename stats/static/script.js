@@ -1,3 +1,70 @@
+const globalOptions = {
+  maintainAspectRatio: false,
+  legend: {
+    position: 'top',
+    labels: {
+      fontColor: 'white'
+    }
+  }
+}
+const ticksOptions = {
+  fontColor: 'white',
+  showLabelBackdrop: false
+}
+const moreScaleOptions = {
+  pointLabels: {
+    fontColor: 'white'
+  },
+  gridLines: {
+    color: '#ffffff4f'
+  },
+  angleLines: {
+    color: 'white'
+  }
+}
+const numberOptions = {
+  scales: {
+    yAxes: [{
+      ticks: {
+        callback(value) {
+          return value.toLocaleString()
+        },
+        beginAtZero: true,
+        ...ticksOptions
+      },
+      ...moreScaleOptions
+    }],
+    xAxes: [{
+      ticks: {
+        ...ticksOptions
+      },
+      ...moreScaleOptions
+    }]
+  },
+  ...globalOptions
+}
+const bytesOptions = {
+  scales: {
+    yAxes: [{
+      ticks: {
+        callback(value) {
+          return formatBytes(value)
+        },
+        beginAtZero: true,
+        ...ticksOptions
+      },
+      ...moreScaleOptions
+    }],
+    xAxes: [{
+      ticks: {
+        ...ticksOptions
+      },
+      ...moreScaleOptions
+    }]
+  },
+  ...globalOptions
+}
+
 const sessionsChart = new Chart(document.getElementById('sessions-chart'), {
   type: 'line',
   data: {
@@ -5,23 +72,11 @@ const sessionsChart = new Chart(document.getElementById('sessions-chart'), {
     datasets: [{
       label: 'Active Sessions',
       backgroundColor: 'transparent',
-      borderColor: '#6384ff',
+      borderColor: '#36a2eb',
       data: []
     }]
   },
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          callback(value) {
-            return value.toLocaleString()
-          },
-          suggestedMin: 0
-        }
-      }]
-    },
-    maintainAspectRatio: false
-  }
+  options: numberOptions
 })
 
 const memoryChart = new Chart(document.getElementById('memory-chart'), {
@@ -41,19 +96,7 @@ const memoryChart = new Chart(document.getElementById('memory-chart'), {
       data: []
     }]
   },
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          callback(value) {
-            return formatBytes(value)
-          },
-          suggestedMin: 0
-        }
-      }]
-    },
-    maintainAspectRatio: false
-  }
+  options: bytesOptions
 })
 const memoryPieChart = new Chart(document.getElementById('memory-pie-chart'), {
   type: 'pie',
@@ -65,14 +108,14 @@ const memoryPieChart = new Chart(document.getElementById('memory-pie-chart'), {
     }]
   },
   options: {
-    maintainAspectRatio: false,
     tooltips: {
       callbacks: {
         label: function(tooltipItem, data) {
           return formatBytes(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index])
         }
       }
-    }
+    },
+    ...globalOptions
   }
 })
 
@@ -114,12 +157,20 @@ const latencyChart = new Chart(document.getElementById('latency-chart'), {
           callback(value) {
             return `${value}ms`
           },
-          suggestedMin: 0,
-          suggestedMax: 1000
-        }
+          beginAtZero: true,
+          suggestedMax: 1000,
+          ...ticksOptions
+        },
+        ...moreScaleOptions
+      }],
+      xAxes: [{
+        ticks: {
+          ...ticksOptions
+        },
+        ...moreScaleOptions
       }]
     },
-    maintainAspectRatio: false
+    ...globalOptions
   }
 })
 
@@ -140,19 +191,7 @@ const networkChart = new Chart(document.getElementById('network-chart'), {
       data: []
     }]
   },
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          callback(value) {
-            return formatBytes(value)
-          },
-          suggestedMin: 0
-        }
-      }]
-    },
-    maintainAspectRatio: false
-  }
+  options: bytesOptions
 })
 
 const packetsChart = new Chart(document.getElementById('packets-chart'), {
@@ -172,18 +211,7 @@ const packetsChart = new Chart(document.getElementById('packets-chart'), {
       data: []
     }]
   },
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          callback(value) {
-            return value.toLocaleString()
-          }
-        }
-      }]
-    },
-    maintainAspectRatio: false
-  }
+  options: numberOptions
 })
 
 const diskChart = new Chart(document.getElementById('disk-chart'), {
@@ -203,19 +231,7 @@ const diskChart = new Chart(document.getElementById('disk-chart'), {
       data: []
     }]
   },
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          callback(value) {
-            return formatBytes(value)
-          },
-          suggestedMin: 0
-        }
-      }]
-    },
-    maintainAspectRatio: false
-  }
+  options: bytesOptions
 })
 
 const storageChart = new Chart(document.getElementById('storage-chart'), {
@@ -228,14 +244,14 @@ const storageChart = new Chart(document.getElementById('storage-chart'), {
     }]
   },
   options: {
-    maintainAspectRatio: false,
     tooltips: {
       callbacks: {
         label: function(tooltipItem, data) {
           return formatBytes(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index])
         }
       }
-    }
+    },
+    ...globalOptions
   }
 })
 
