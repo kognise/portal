@@ -10,7 +10,9 @@
   async function beat() {
     const res = await fetch(`${e}/beat/${session}`)
     session = await res.text()
-    if (res.ok) BCookies.set(c, session)
+    if (res.ok) {
+      BCookies.set(c, session)
+     } else BCookies.remove(c)
   }
 
   setInterval(beat, 1000)
