@@ -32,4 +32,4 @@ app.get('/heart/demo', (req, res) => {
   res.sendFile('demo.html', { root: __dirname })
 })
 
-app.listen(8002, () => console.log('> Listening on http://localhost:8002/heart'))
+app.listen(80, '0.0.0.0', () => console.log('> Listening!'))

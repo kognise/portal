@@ -83,4 +83,4 @@ setInterval(async () => {
 
 io.on('connection', () => console.log('> Someone connected'))
 
-http.listen(8001, () => console.log('> Listening on http://localhost:8001/stats'))
+http.listen(80, '0.0.0.0',  () => console.log('> Listening!'))
