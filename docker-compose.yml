@@ -1,5 +1,14 @@
 version: '3'
+
 services:
+  revers:
+    build: revers
+    restart: always
+
+  default:
+    build: default
+    restart: always
+
   proxy:
     build: proxy
     ports:
@@ -7,15 +16,4 @@ services:
       - 443:443
     volumes:
       - /etc/letsencrypt/:/etc/letsencrypt/
-      
-  stats:
-    build: stats
-    restart: always
-
-  heart:
-    build: heart
-    restart: always
-
-  default:
-    build: default
     restart: always

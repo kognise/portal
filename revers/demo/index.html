@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Project Portal: Revers</title>
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.css'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel='shortcut icon' href='/favicon.ico'>
+    <link rel='icon' href='/favicon.ico'>
+  </head>
+  <body>
+    <h1>Project Portal: Revers</h1>
+    <p>
+      A cute little microservice to reverse any string supplied to it. It even works with strings with crazy unicode and emojis! <code>CATS 🐈</code> becomes <code>🐈 STAC</code>, for example.
+    </p>
+    
+    <h2>Endpoints</h2>
+    <ul>
+      <li><strong>GET</strong> <code>/revers</code>: shows this very page</li>
+      <li><strong>POST</strong> <code>/revers</code>: reverses the request body</li>
+      <li><strong>GET</strong> <code>/revers/:string</code>: reverses the string in the url</li>
+    </ul>
+
+    <h2>Demo</h2>
+    <form>
+      <label for='string'>String</label>
+      <input id='string' name='string' placeholder='Kayak'>
+
+      <p>Result:</p>
+      <pre><code id='result'>-</code></pre>
+    </form>
+
+    <script src='script.js'></script>
+  </body>
+</html>
