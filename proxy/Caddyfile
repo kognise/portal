@@ -1,0 +1,4 @@
+0.0.0.0:80, portal.kognise.dev
+
+proxy / default
+proxy /revers revers

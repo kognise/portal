@@ -1,4 +1,5 @@
-FROM nginx:stable
-COPY nginx.conf /etc/nginx/nginx.conf
+FROM wemakeservices/caddy-docker:latest
+COPY Caddyfile /etc/Caddyfile
+VOLUME [ "certificates:/root/.caddy" ]
 EXPOSE 80
 EXPOSE 443
