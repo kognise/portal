@@ -9,3 +9,5 @@ Because I spent way too long figuring this out, it's super easy to develop Proje
   - Run `start` and wait for it to finish
   - Run `exit`
 - A local deployment should be accessible at [localhost:8080](http://localhost:8080)
+
+You can also run `source <(curl -s https://raw.githubusercontent.com/kognise/portal/master/provision.sh)` on GCP.
