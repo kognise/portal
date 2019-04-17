@@ -1,4 +1,4 @@
-0.0.0.0:80, portal.kognise.dev
+0.0.0.0:80 {$PROD_HOST}
 
 proxy / default
 proxy /revers revers
