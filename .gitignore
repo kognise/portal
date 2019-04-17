@@ -1,4 +1,4 @@
 .vagrant/
 *.log
 *.box
-piglatin/dist
+piglatin/dist/*
