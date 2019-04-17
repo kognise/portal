@@ -15,4 +15,4 @@ services:
       - 80:80
       - 443:443
     environment:
-      - PROD_HOST=portal.kognise.dev
+      - PROD_HOST=${PROD_HOST}
