@@ -1,7 +1,7 @@
 FROM haskell
 WORKDIR /usr/src/app
 
-ADD . .
+COPY  . .
 RUN cabal update
 RUN cabal install
 EXPOSE 80

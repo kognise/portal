@@ -11,6 +11,17 @@
   (major1) == 0 && (major2) == 1 && (minor) <= 0)
 #endif /* MIN_VERSION_piglatin */
 
+/* package aeson-1.4.2.0 */
+#ifndef VERSION_aeson
+#define VERSION_aeson "1.4.2.0"
+#endif /* VERSION_aeson */
+#ifndef MIN_VERSION_aeson
+#define MIN_VERSION_aeson(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  4 || \
+  (major1) == 1 && (major2) == 4 && (minor) <= 2)
+#endif /* MIN_VERSION_aeson */
+
 /* package base-4.12.0.0 */
 #ifndef VERSION_base
 #define VERSION_base "4.12.0.0"
@@ -32,6 +43,17 @@
   (major1) == 0 && (major2) <  10 || \
   (major1) == 0 && (major2) == 10 && (minor) <= 8)
 #endif /* MIN_VERSION_bytestring */
+
+/* package containers-0.6.0.1 */
+#ifndef VERSION_containers
+#define VERSION_containers "0.6.0.1"
+#endif /* VERSION_containers */
+#ifndef MIN_VERSION_containers
+#define MIN_VERSION_containers(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  6 || \
+  (major1) == 0 && (major2) == 6 && (minor) <= 0)
+#endif /* MIN_VERSION_containers */
 
 /* package mtl-2.2.2 */
 #ifndef VERSION_mtl
@@ -65,6 +87,17 @@
   (major1) == 1 && (major2) <  1 || \
   (major1) == 1 && (major2) == 1 && (minor) <= 1)
 #endif /* MIN_VERSION_snap_server */
+
+/* package text-1.2.3.1 */
+#ifndef VERSION_text
+#define VERSION_text "1.2.3.1"
+#endif /* VERSION_text */
+#ifndef MIN_VERSION_text
+#define MIN_VERSION_text(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  2 || \
+  (major1) == 1 && (major2) == 2 && (minor) <= 3)
+#endif /* MIN_VERSION_text */
 
 /* tool alex-3.1.6 */
 #ifndef TOOL_VERSION_alex

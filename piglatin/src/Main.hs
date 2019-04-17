@@ -1,7 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main where
-
-import qualified Data.ByteString as BS
+import qualified Data.Text as T
+import           Data.Text.Encoding
+import           Data.Maybe
 
 import           Control.Applicative
 import           Snap.Core
@@ -12,11 +13,12 @@ main :: IO ()
 main = quickHttpServe site
 
 site :: Snap ()
-site =
-    ifTop (serveDirectory "./static") <|>
-    route [
-          ("piglatin/:str", piglatin)
-          ]
+site = route [
+        ("piglatin", method POST piglatin)
+    ] <|>
+    ifTop (serveDirectory "./static")
 
 piglatin :: Snap ()
-piglatin = writeBS $ unwords . fmap BS.unpack . getParam "str" . words where wordToPl = (\(x, y) -> y ++ x ++ "ay") . break (`elem` "aeiouAEIOU")
+piglatin = do
+    param <- getParam "str"
+    writeText $ T.pack . unwords . fmap wordToPl . words . T.unpack . decodeUtf8 . fromJust $  param where wordToPl = (\(x, y) -> y ++ x ++ "ay") . break (`elem` ("aeiouAEIOU" :: String))
