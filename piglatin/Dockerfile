@@ -1,4 +1,4 @@
-FROM haskell
+FROM haskell:latest
 WORKDIR /usr/src/app
 
 COPY  . .
