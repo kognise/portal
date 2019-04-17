@@ -6,5 +6,5 @@ then
 fi
 sudo docker-compose build -e PROD_HOST
 sudo docker-compose down
-sudo docker-compose up
+sudo docker-compose up -d
 cd -
