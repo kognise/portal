@@ -10,7 +10,7 @@ import           Snap.Util.FileServe
 import           Snap.Http.Server
 
 main :: IO ()
-main = quickHttpServe site
+main = httpServe (setPort 80 mempty) site
 
 site :: Snap ()
 site = route [
