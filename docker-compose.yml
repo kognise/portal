@@ -5,6 +5,10 @@ services:
     build: revers
     restart: always
 
+  piglatin:
+    build: piglatin
+    restart: always
+
   default:
     build: default
     restart: always
