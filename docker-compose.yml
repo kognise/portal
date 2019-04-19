@@ -4,35 +4,43 @@ services:
   mongo:
     image: mongo:latest
     restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    command: --bind_ip_all
+    volumes: 
+      - ${HOME}/portal-data:/data/db
+    networks:
+      - mongonet
 
   mongo-admin:
     image: mongo-express
     restart: always
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
       ME_CONFIG_SITE_BASEURL: /mongo
     depends_on:
       - mongo
+    networks:
+      - mongonet
+      - proxynet
 
   ping:
     build: ping
     restart: always
     depends_on:
       - mongo
-    environment:
-      MONGO_PASSWORD: ${MONGO_PASSWORD}
+    networks:
+      - mongonet
+      - proxynet
 
   revers:
     build: revers
     restart: always
+    networks:
+      - proxynet
 
   default:
     build: default
     restart: always
+    networks:
+      - proxynet
 
   proxy:
     build: proxy
@@ -41,3 +49,9 @@ services:
       - 443:443
     environment:
       PROD_HOST: ${PROD_HOST}
+    networks:
+      - proxynet
+
+networks:
+  proxynet:
+  mongonet:

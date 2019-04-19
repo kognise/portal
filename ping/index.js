@@ -2,7 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
 
-mongoose.connect(`mongodb://root:${encodeURIComponent(process.env.MONGO_PASSWORD)}@mongo/ping`, { useNewUrlParser: true })
+mongoose.connect(`mongodb://mongo:27017/ping`, { useNewUrlParser: true })
 
 app.use('/ping', express.static('demo'))
 

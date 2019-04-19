@@ -6,5 +6,6 @@ COPY yarn.lock ./
 RUN yarn install --prod
 
 COPY . .
+RUN chmod +x ./wait-for-it.sh
 EXPOSE 80
-CMD [ "yarn", "start" ]
+CMD [ "./wait-for-it.sh", "mongo:27017", "--", "yarn", "start" ]
