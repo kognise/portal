@@ -6,7 +6,7 @@ field.addEventListener('keyup', async () => {
     result.innerText = '-'
     return
   }
-  const res = await fetch(`/oink/${encodeURIComponent(string)}`)
+  const res = await fetch(`/oink/translate/${encodeURIComponent(string)}`)
   const text = await res.text()
   result.innerText = text
 })
