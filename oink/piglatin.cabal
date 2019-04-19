@@ -1,16 +1,16 @@
-Name:                piglatin
+Name:                oink
 Version:             0.1
 Synopsis:            Project Synopsis Here
 Description:         Project Description Here
-License:             AllRightsReserved
-Author:              Author
-Maintainer:          maintainer@example.com
+License:             MIT
+Author:              JackFly26
+Maintainer:          jackfleishman@outlook.com
 Stability:           Experimental
 Category:            Web
 Build-type:          Simple
 Cabal-version:       >=1.2
 
-Executable piglatin
+Executable oink
   hs-source-dirs: src
   main-is: Main.hs
 

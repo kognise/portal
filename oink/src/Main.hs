@@ -17,7 +17,7 @@ main = httpServe (setPort 80 mempty) site <|> quickHttpServe site
 
 site :: Snap ()
 site = route [
-        ("piglatin", piglatin)
+        ("oink", piglatin)
     ] <|>
     ifTop (serveDirectory "./static")
 

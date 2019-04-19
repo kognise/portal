@@ -5,8 +5,8 @@ services:
     build: revers
     restart: always
 
-  piglatin:
-    build: piglatin
+  oink:
+    build: oink
     restart: always
 
   default:
