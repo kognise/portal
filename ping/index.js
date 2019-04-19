@@ -2,7 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const fetch = require('node-fetch')
 const uid = require('uid-promise')
-const isUrl = require('./is-url')
+const formatUrl = require('./format-url')
 const app = express()
 
 mongoose.Promise = Promise
@@ -17,12 +17,13 @@ app.use('/ping', express.static('demo'))
 app.get('/ping/:location', async (req, res) => {
   try {
     const { location } = req.params
-    if (!isUrl(location)) {
+    const formatted = formatUrl(location)
+    if (!formatted) {
       res.sendStatus(400)
       return
     }
 
-    const count = await Site.count({ location })
+    const count = await Site.count({ location: formatted })
     if (count > 0) {
       res.sendStatus(409)
       return
@@ -32,7 +33,7 @@ app.get('/ping/:location', async (req, res) => {
     const lastCheck = Date.now()
 
     const stopCode = await uid(20)
-    const site = new Site({ location, stopCode, lastCheck })
+    const site = new Site({ location: formatted, stopCode, lastCheck })
     await site.save()
     res.status(201).send(stopCode)
   } catch(error) {
@@ -43,12 +44,13 @@ app.get('/ping/:location', async (req, res) => {
 app.get('/ping/:location/stop/:stopCode', async (req, res) => {
   try {
     const { location, stopCode } = req.params
-    if (!isUrl(location) || !(stopCode && stopCode.length === 20)) {
+    const formatted = formatUrl(location)
+    if (!formatted || !(stopCode && stopCode.length === 20)) {
       res.sendStatus(400)
       return
     }
 
-    const site = await Site.findOne({ location })
+    const site = await Site.findOne({ location: formatted })
     if (!site) {
       res.sendStatus(404)
       return
@@ -68,12 +70,13 @@ app.get('/ping/:location/stop/:stopCode', async (req, res) => {
 app.get('/ping/:location/last', async (req, res) => {
   try {
     const { location } = req.params
-    if (!isUrl(location)) {
+    const formatted = formatUrl(location)
+    if (!formatted) {
       res.sendStatus(400)
       return
     }
 
-    const site = await Site.findOne({ location })
+    const site = await Site.findOne({ location: formatted })
     if (!site) {
       res.sendStatus(404)
       return
