@@ -2,3 +2,5 @@
 
 proxy / default
 proxy /revers revers
+proxy /ping ping
+proxy /mongo mongo-admin:8081
