@@ -10,17 +10,6 @@ services:
     networks:
       - mongonet
 
-  mongo-admin:
-    image: mongo-express
-    restart: always
-    environment:
-      ME_CONFIG_SITE_BASEURL: /mongo
-    depends_on:
-      - mongo
-    networks:
-      - mongonet
-      - proxynet
-
   ping:
     build: ping
     restart: always
