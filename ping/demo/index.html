@@ -34,6 +34,9 @@
       <label for='stop-location'>Location</label>
       <input id='stop-location' name='stop-location' placeholder='https://kognise.dev/'>
 
+      <label for='stop-code'>Stop code</label>
+      <input id='stop-code' name='stop-code' placeholder='D83MqGYVhr22cKj49pfT'>
+
       <input type='submit' value='Stop :('>
 
       <p id='stop-result'></p>
@@ -46,7 +49,7 @@
     <ul>
       <li><strong>GET</strong> <code>/ping</code>: shows this very page</li>
       <li><strong>GET</strong> <code>/ping/:site</code>: enables pinging for a site; responds with <a href='https://statuses.now.sh/?code=409'>status 409</a> if the site is already set to ping</li>
-      <li><strong>GET</strong> <code>/ping/:site/stop</code>: stops pinging a site</li>
+      <li><strong>GET</strong> <code>/ping/:site/stop/:stopCode</code>: stops pinging a site; responds with <a href='https://statuses.now.sh/?code=403'>status 403</a> if the stop code is incorrect</li>
       <li><strong>GET</strong> <code>/ping/:site/last</code>: responds with the last time a site was pinged</li>
     </ul>
 

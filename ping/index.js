@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const fetch = require('node-fetch')
+const uid = require('uid-promise')
 const isUrl = require('./is-url')
 const app = express()
 
@@ -8,6 +9,7 @@ mongoose.Promise = Promise
 mongoose.connect(`mongodb://mongo:27017/ping`, { useNewUrlParser: true })
 const Site = mongoose.model('Site', {
   location: String,
+  stopCode: String,
   lastCheck: Number
 })
 
@@ -26,24 +28,38 @@ app.get('/ping/:location', async (req, res) => {
       return
     }
 
-    const site = new Site({ location, lastCheck: 0 })
+    await fetch(location)
+    const lastCheck = Date.now()
+
+    const stopCode = await uid(20)
+    const site = new Site({ location, stopCode, lastCheck })
     await site.save()
-    res.sendStatus(201)
+    res.status(201).send(stopCode)
   } catch(error) {
     console.error(error)
     res.sendStatus(500)
   }
 })
-app.get('/ping/:location/stop', async (req, res) => {
+app.get('/ping/:location/stop/:stopCode', async (req, res) => {
   try {
-    const { location } = req.params
-    if (!isUrl(location)) {
+    const { location, stopCode } = req.params
+    if (!isUrl(location) || !(stopCode && stopCode.length === 20)) {
       res.sendStatus(400)
       return
     }
 
-    await Site.findOneAndDelete({ location })
-    res.sendStatus(200)
+    const site = await Site.findOne({ location })
+    if (!site) {
+      res.sendStatus(404)
+      return
+    }
+    if (site.stopCode !== stopCode) {
+      res.sendStatus(403)
+      return
+    }
+
+    await site.delete()
+    res.sendStatus(204)
   } catch(error) {
     console.error(error)
     res.sendStatus(500)

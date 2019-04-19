@@ -5,6 +5,7 @@
   "dependencies": {
     "express": "^4.16.4",
     "mongoose": "^5.5.2",
-    "node-fetch": "^2.3.0"
+    "node-fetch": "^2.3.0",
+    "uid-promise": "^1.1.0"
   }
 }

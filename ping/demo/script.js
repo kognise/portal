@@ -4,7 +4,7 @@ document.getElementById('setup-form').addEventListener('submit', async (event) =
   event.preventDefault()
 
   if (!setupLocationField.value) {
-    setupResult.innerText = ''
+    setupResult.innerText = 'You must provide a URL to ping!'
     return
   }
   const location = setupLocationField.value
@@ -13,7 +13,8 @@ document.getElementById('setup-form').addEventListener('submit', async (event) =
   const res = await fetch(`/ping/${encodeURIComponent(location)}`)
   switch(res.status) {
     case 201: {
-      setupResult.innerText = 'Success! Your website is now being pinged.'
+      const stopCode = await res.text()
+      setupResult.innerHTML = `Success! Your website is now being pinged. Your stop code is <code>${stopCode}</code>. <strong>You'll need this to stop pinging your site.</strong>`
       break
     }
     case 409: {
@@ -31,25 +32,36 @@ document.getElementById('setup-form').addEventListener('submit', async (event) =
 })
 
 const stopLocationField = document.getElementById('stop-location')
+const stopCodeField = document.getElementById('stop-code')
 const stopResult = document.getElementById('stop-result')
 document.getElementById('stop-form').addEventListener('submit', async (event) => {
   event.preventDefault()
 
-  if (!stopLocationField.value) {
-    stopResult.innerText = ''
+  if (!stopLocationField.value || !stopCodeField.value) {
+    stopResult.innerText = 'You must provide a URL and stop code.'
     return
   }
   const location = stopLocationField.value
   stopLocationField.value = ''
+  const stopCode = stopCodeField.value
+  stopCodeField.value = ''
 
-  const res = await fetch(`/ping/${encodeURIComponent(location)}/stop`)
+  const res = await fetch(`/ping/${encodeURIComponent(location)}/stop/${encodeURIComponent(stopCode)}`)
   switch(res.status) {
-    case 200: {
-      stopResult.innerText = `If we were before, we've stopped pinging that website.`
+    case 204: {
+      stopResult.innerText = `We've stopped pinging that website.`
+      break
+    }
+    case 403: {
+      stopResult.innerText = `It looks like you entered an incorrect stop code.`
+      break
+    }
+    case 404: {
+      stopResult.innerText = `We aren't pinging that site yet! Sorry.`
       break
     }
     case 400: {
-      stopResult.innerText = `Sorry, that doesn't seem to be a valid URL.`
+      stopResult.innerText = `Sorry, your URL or stop code seems to be invalid.`
       break
     }
     default: {
