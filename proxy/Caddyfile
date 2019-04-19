@@ -2,3 +2,4 @@
 
 proxy / default
 proxy /revers revers
+proxy /ping ping

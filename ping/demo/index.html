@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>Project Portal: Ping</title>
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.css'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel='shortcut icon' href='/favicon.ico'>
+    <link rel='icon' href='/favicon.ico'>
+  </head>
+  <body>
+    <h1>Project Portal: Ping</h1>
+    <p>
+      A service to keep websites hosted on Now.sh, Repl.it, Glitch.me, and similar awake.
+      <strong>Why should you use this instead of Uptime Robot?</strong>
+      Because Ping is built for the purpose of keeping sites awake, not for monitoring uptime.
+      We guarentee reliability: your website will always be pinged on time.
+    </p>
+
+    <h2>Setup Site</h2>
+    <form id='setup-form'>
+      <label for='setup-location'>Location</label>
+      <input id='setup-location' name='setup-location' placeholder='https://kognise.dev/'>
+
+      <input type='submit' value='Go!'>
+
+      <p id='setup-result'></p>
+    </form>
+
+    <h2>Stop Pinging</h2>
+    <p>
+      Use this form to stop pinging a website.
+    </p>
+    <form id='stop-form'>
+      <label for='stop-location'>Location</label>
+      <input id='stop-location' name='stop-location' placeholder='https://kognise.dev/'>
+
+      <label for='stop-code'>Stop code</label>
+      <input id='stop-code' name='stop-code' placeholder='D83MqGYVhr22cKj49pfT'>
+
+      <input type='submit' value='Stop :('>
+
+      <p id='stop-result'></p>
+    </form>
+    
+    <h2>Endpoints</h2>
+    <p>
+      If you want, we have an API as well. These are it's endpoints.
+    </p>
+    <ul>
+      <li><strong>GET</strong> <code>/ping</code>: shows this very page</li>
+      <li><strong>GET</strong> <code>/ping/:site</code>: enables pinging for a site; responds with <a href='https://statuses.now.sh/?code=409'>status 409</a> if the site is already set to ping</li>
+      <li><strong>GET</strong> <code>/ping/:site/stop/:stopCode</code>: stops pinging a site; responds with <a href='https://statuses.now.sh/?code=403'>status 403</a> if the stop code is incorrect</li>
+      <li><strong>GET</strong> <code>/ping/:site/last</code>: responds with the last time a site was pinged</li>
+    </ul>
+
+    <script src='script.js'></script>
+  </body>
+</html>

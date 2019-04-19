@@ -1,13 +1,35 @@
 version: '3'
 
 services:
+  mongo:
+    image: mongo:latest
+    restart: always
+    command: --bind_ip_all
+    volumes: 
+      - ${HOME}/portal-data:/data/db
+    networks:
+      - mongonet
+
+  ping:
+    build: ping
+    restart: always
+    depends_on:
+      - mongo
+    networks:
+      - mongonet
+      - proxynet
+
   revers:
     build: revers
     restart: always
+    networks:
+      - proxynet
 
   default:
     build: default
     restart: always
+    networks:
+      - proxynet
 
   proxy:
     build: proxy
@@ -15,4 +37,10 @@ services:
       - 80:80
       - 443:443
     environment:
-      - PROD_HOST=${PROD_HOST}
+      PROD_HOST: ${PROD_HOST}
+    networks:
+      - proxynet
+
+networks:
+  proxynet:
+  mongonet:
