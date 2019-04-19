@@ -10,8 +10,14 @@
 </head>
 
 <body>
-        <h1>Oink</h1>
-        <h3>A simple pig latin service.</h3>
+        <h1>Project Portal: Oink</h1>
+        <h3>A simple pig latin service. It should work with any string. Does not work with accented vowels. Sorry.</h3> <!--TODO: implement accented vowels.-->
+        <h2>Endpoints</h2>
+        <ul>
+                <li><strong>GET</strong> <code>/oink</code>: This page.</li>
+                <li><strong>GET</strong> <code>/oink/translate/&lt;string&gt;</code>: Translates a string to pig latin.</li>
+                <li><strong>POST</strong> <code>/oink</code>: Translates the urlformencoded <code>str</code> parameter to pig latin.</li>
+        </ul>
         <form>
                 <label for="str">String to be converted:</label>
                 <input type="text" id="str" name="str"></input>
