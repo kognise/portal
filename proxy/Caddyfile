@@ -1,5 +1,6 @@
 0.0.0.0:80 {$PROD_HOST}
 
+cors
 proxy / default
 proxy /revers revers
 proxy /ping ping
