@@ -1,4 +1,4 @@
-FROM wemakeservices/caddy-docker:latest
+FROM abiosoft/caddy:latest
 COPY Caddyfile /etc/Caddyfile
 VOLUME [ "certificates:/root/.caddy" ]
 EXPOSE 80
